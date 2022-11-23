@@ -601,11 +601,7 @@ td, th {
           we focus the training on 1D models, where the FWI requires modelling a single shot gather. This should be fine considering 
           that flooding and unflooding are often handled along the vertical dimension. In addition, in 1D models, the gradient can be 
           computed using a few shots by laterally stacking the gradient, which simulates the effect of full fold coverage.
-          We adapt a U-net architecture as our neural network. U-net is commonly used in segmentation tasks and has been widely used for salt detection as a classifier.
-          Normally U-net is applied to two-dimensional (2D) images. Here, we modify the structure to accept one-dimensional (1D) inputs by using 1D convolutional layers instead of 2D layers.
-          The input to the network consists of two channels: the FWI result of the flooded model and the initial flooded model used for the inversion. Including the initial model 
-          in the input affects the prediction in areas that do not contain salts by using information from the initial model. 
-          The output of the network will be the unflooded model. 
+          We adapt a U-net architecture as our neural network.
 
         </p>
 
@@ -626,51 +622,27 @@ td, th {
           <!-- ====================================================== -->
           <div class="row section">
               <div class="section_title">Experiments </div>
-              <p>
-              We test the proposed method on the left part of the BP 2004 benchmark model and vintage field data from the Gulf of Mexico. 
-              Both synthetic and real data miss the low frequencies content and have limited offsets. 
-	            We perform full-waveform inversion (FWI) with total variation (TV) on a flooded version of the models. As expected, 
-              FWI alone could not correct the subsalt velocity. However, we can see the signatures of the BoS.
-              </p>
-              <p>
-                We ran three experiments on the synthetic BP data. The difference between the three experiments lay in the training datasets.  
-                In all the experiments, the network succeeds in unflooding the salt. However, the experiments show that 
-                to estimate a good subsalt velocity, the training data has to contain some information about the target model. A final 
-                FWI is then applied to the unflooded models. The final FWI shows improvements in the subsalt velocity in the second and the third scenarios, even with 
-                the limited offset and the absence of low frequencies. This is courtesy of having good initial models by the network unflooding.  
-              </p>
-              <p>
-                The unflooding for the field GOM data seems to have some artifacts. The black arrows show areas where the network detected what seemed by 
-                the final FWI the actual base, but the network did not unflood at those positions. This could be due to many factors such as inaccuracy of the 
-                top of the salt or hetrogeniouty within the salt, which the network is not learn to deal with. To validate the field results, we apply reverse time migration 
-                on the final inversion result and shows common image angle gathers (CIG) to test. The CIG shows descent flattness at the top and the detected base of the salt.
-                The data is contaminated with multiples from the salt which is appearant from the image and explain why the CIG shows higher velocity at the deeper parts. Thus, 
-                to better validate this data set, salt multiples should be removed from the data. 
-	<br> <br>
 
-	<table>
-	  <tr>
-	    <td>Experiment 1 </td>
-	    <td>The data is created arbitrarily with no geological knowledge
-	about the targeted BP model </td>
-	  </tr>
-	  <tr>
-	    <td>Experiment 2</td>
-	    <td>Some features are modified to better match the BP model
-	such as the water depth and the maximum velocity of the
-	sediments</td>
-	  </tr>
-	  <tr>
-	    <td>Experiment 3</td>
-	    <td>The average velocity of the sediments, excluding the
-	salt, were used as a general trend in creating the training datasets</td>
-	  </tr>
-
-	</table>
-
-          <br> <br>
-
-          <div class="section_title">Synthetic BP salt data</div>
+          <div class="section_title">1- Synthetic BP salt data</div>
+          <table>
+            <tr>
+              <td>Experiment 1 </td>
+              <td>The data is created arbitrarily with no geological knowledge
+          about the targeted BP model </td>
+            </tr>
+            <tr>
+              <td>Experiment 2</td>
+              <td>Some features are modified to better match the BP model
+          such as the water depth and the maximum velocity of the
+          sediments</td>
+            </tr>
+            <tr>
+              <td>Experiment 3</td>
+              <td>The average velocity of the sediments, excluding the
+          salt, were used as a general trend in creating the training datasets</td>
+            </tr>
+        
+          </table>
           <center>
               <p>
                   <img src="assets/alali-Deep-learning-unflooding-for-robust-subsalt-waveform-inversion/Results-BP-Unflooding.png" class="img-responsive" width=900  ">
@@ -683,7 +655,15 @@ td, th {
         </div>
 
           <div class="row section">
-              <div class="section_title">Field GOM data</div>
+              <div class="section_title">2- Field GOM data</div>
+              <p>
+                The unflooding for the field GOM data seems to have some artifacts. The black arrows show areas where the network detected what seemed by 
+                the final FWI the actual base, but the network did not unflood at those positions. This could be due to many factors such as inaccuracy of the 
+                top of the salt or hetrogeniouty within the salt, which the network is not learn to deal with. To validate the field results, we apply reverse time migration 
+                on the final inversion result and shows common image angle gathers (CIG) to test. The CIG shows descent flattness at the top and the detected base of the salt.
+                The data is contaminated with multiples from the salt which is appearant from the image and explain why the CIG shows higher velocity at the deeper parts. Thus, 
+                to better validate this data set, salt multiples should be removed from the data. 
+                </p>
 
               <center>
                 <p>
